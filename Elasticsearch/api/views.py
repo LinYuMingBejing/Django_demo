@@ -10,9 +10,10 @@ from api.serializers import RestaurantSerializer
 from api.documents import RestaurantDocument, AreasDocument, RestaurantTypesDocument
 from AIChoice.settings import REDIS_TIMEOUT
 
+
 # Create your views here.
 
-class articles(APIView):
+class restaurants(APIView):
 
     def get_area(self, area_ids):
         if not area_ids:
@@ -66,16 +67,17 @@ class articles(APIView):
         
         query = RestaurantDocument.search().query('bool', must = queryArray)
 
-        articles = []
-        for article in query.scan():
+        restaurants = []
+        for restaurant in query.scan():
             row = {}
-            row['url_hash'] = article.url_hash
-            row['img_num'] = article.img_num
-            row['article_id'] = article.article_id
-            row['content_len'] = article.content_len
-            articles.append(row)
+            row['restaurant'] = restaurant.restaurant
+            row['ratings'] = restaurant.ratings
+            row['types'] = restaurant.types
+            row['areas'] = restaurant.areas
+            row['price'] = restaurant.price
+            restaurants.append(row)
 
-        return articles
+        return restaurants
 
 
     def post(self, request, format=None):
@@ -90,7 +92,7 @@ class articles(APIView):
         categories = self.get_subcategory(category_ids)
         restaurants = self.get_object(areas, categories, updated_date, keywords)
         
-        restaurants = RestaurantSerializer(articles, many=True).data
+        restaurants = RestaurantSerializer(restaurants, many=True).data
         res.update({'status': True, 'data': restaurants})
         return JsonResponse(res, safe=False)
 
@@ -103,7 +105,7 @@ class category(APIView):
         for record in query.scan():
             if record.region not in areas:
                 areas[record.region] = []
-            areas[record.region].append({'id': record.id, 'text': record.location})
+            areas[record.region].append({'id': record.id, 'value': record.location})
         return areas
 
 
@@ -113,7 +115,7 @@ class category(APIView):
         for record in query.scan():
             if record.subcategory not in categories:
                 categories[record.subcategory] = []
-            categories[record.subcategory].append({'id': record.id, 'text':record.name})
+            categories[record.subcategory].append({'id': record.id, 'value': record.name})
         return categories
 
 
