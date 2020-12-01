@@ -50,10 +50,10 @@ class restaurants(APIView):
     def get_object(self, areas, categories, updated_date, keywords):
         queryArray = []
 
-        if published_date:
+        if updated_date:
             end_date = datetime.strptime(updated_date['to'], '%Y-%m-%d')
             start_date = datetime.strptime(updated_date['from'], '%Y-%m-%d')
-            queryArray.append(Q('range', updated_date = {'gte': start_date, 'lte': end_date}))
+            queryArray.append(Q('range', created_time = {'gte': start_date, 'lte': end_date}))
             
         if keywords:
             keywords = '\"{}\"'.format('" "'.join(keywords))
@@ -130,4 +130,43 @@ class category(APIView):
             cache.set('data', data, REDIS_TIMEOUT)
         
         res.update({'status': True, 'data': data})
+        return JsonResponse(res)
+
+
+class upload_restaurant(APIView):
+
+    def post(self, request, format=None):
+        res = {'status': False}
+        data = request.data.get('data', None)
+        restaurant = RestaurantDocument(meta={'id': data['restaurant']}, **data)
+        
+        # save the document into the cluster
+        restaurant.save()
+        res.update({'status': True})
+        return JsonResponse(res)
+
+
+class upload_areas(APIView):
+
+    def post(self, request, format=None):
+        res = {'status': False}
+        data = request.data.get('data', None)
+        areas = AreasDocument(meta={'id': data['id']}, **data)
+        
+        # save the document into the cluster
+        areas.save()
+        res.update({'status': True})
+        return JsonResponse(res)
+
+
+class upload_category(APIView):
+
+    def post(self, request, format=None):
+        res = {'status': False}
+        data = request.data.get('data', None)
+        types = RestaurantTypesDocument(meta={'id': data['id']}, **data)
+        
+        # save the document into the cluster
+        types.save()
+        res.update({'status': True})
         return JsonResponse(res)

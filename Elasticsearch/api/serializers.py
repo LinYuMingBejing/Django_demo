@@ -5,5 +5,12 @@ from rest_framework import serializers
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = '__all__'
+        fields = [
+            'restaurant',
+            'ratings',
+            'price',
+            'types',
+            'areas',
+        ]
+
  
