@@ -17,3 +17,13 @@ $ sudo docker-compose up --build -d
 * Kibana url: http://127.0.0.1:5601
 
 ![comment](https://img.onl/DH7D0u)
+
+
+#### API :
+| Endpoints      | Method |
+| --------- | -----:|
+| /api/articles/   |  GET|
+| /api/categories/     |      GET|
+| /api/update/area/     |      POST|
+| /api/update/category/     |      POST|
+| /api/update/restaurant/     |      POST|
