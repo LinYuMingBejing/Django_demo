@@ -25,6 +25,7 @@ class RestaurantDocument(Document):
             'types',
             'areas',
             'spots',
+            'descriptions',
             'created_time',
         ]
 

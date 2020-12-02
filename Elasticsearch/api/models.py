@@ -10,6 +10,7 @@ class Restaurant(models.Model):
     types = models.CharField(max_length=10)
     areas = models.CharField(max_length=10)
     spots = models.CharField(max_length=10)
+    descriptions = models.TextField()
     created_time = models.DateTimeField()
 
 
