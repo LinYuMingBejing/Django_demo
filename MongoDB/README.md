@@ -20,7 +20,7 @@ $ sudo docker-compose up --build -d
 | /api/filter/  |  GET   |
 
 
-* GET /api/filter/ QueryString
+* GET /api/filter/
 * QueryString
 
 | Column Name      | Type | Descriptions |
