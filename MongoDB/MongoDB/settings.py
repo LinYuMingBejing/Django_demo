@@ -86,7 +86,7 @@ DATABASES = {
     }
 }
 
-mongoengine.connect('books', host='mongodb://127.0.0.1')
+mongoengine.connect('books', host='mongodb://mongodb')
 
 
 # Password validation
