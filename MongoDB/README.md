@@ -22,6 +22,7 @@ $ sudo docker-compose up --build -d
 
 * GET /api/filter/ QueryString
 * QueryString
+
 | Column Name      | Type | Descriptions |
 | ----------- | -----| --------- |
 |     title |  String|  Book Title |
