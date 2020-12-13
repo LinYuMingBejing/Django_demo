@@ -3,7 +3,7 @@ version: "3.2"
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.1.0
-    container_name: elasticsearch-623
+    container_name: elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -29,7 +29,7 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:7.1.0
-    container_name: kibana-623
+    container_name: kibana
     environment:
       SERVER_NAME: kibana-server
       ELASTICSEARCH_URL: http://elasticsearch:9200
@@ -39,6 +39,22 @@ services:
       - elasticsearch
     ports:
       - "5601:5601"
+  
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.1.0
+    container_name: logstash
+    volumes:
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch
 
   cerebro:
     image: yannart/cerebro:latest
