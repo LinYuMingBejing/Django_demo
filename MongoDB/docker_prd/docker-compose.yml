@@ -2,7 +2,7 @@ version: "3"
 services:
     mongodb:
       hostname: mongodb
-      image: mongo:4.0.8
+      image: mongo:4.4.2
       ports:
         - "27018:27017"
 
@@ -29,6 +29,8 @@ services:
         build: 
           context: ../
           dockerfile: Dockerfile
+        volumes:
+          - "../:/usr/src/app"
 
         command: supervisord -n
         ports:
@@ -45,4 +47,9 @@ services:
       volumes:
         - ./nginx/nginx.conf:/etc/nginx/sites-enabled/nginx.conf
         - ./nginx/site_enabled/default.conf:/etc/nginx/conf.d/default.conf
+      logging:
+          driver: syslog
+          options:
+            tag: nginx
+            syslog-address: "tcp://logstash:5000"
       restart: always
