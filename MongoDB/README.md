@@ -4,7 +4,9 @@
 * Python: 3.7
 * Backend: Django Framework
 * Database: MongoDB
+* Test: Swagger
 * Monitoring Tool: Supervisor, Prometheus, Grafana
+* Collecting Logs: Logstash, Kibana
 
 
 #### Deploy Applications:
@@ -20,8 +22,7 @@ $ sudo docker-compose up --build -d
 | /api/filter/  |  GET   |
 
 
-* GET /api/filter/
-* QueryString
+* /api/filter/ QueryString
 
 | Column Name      | Type | Descriptions |
 | ----------- | -----| --------- |
@@ -31,6 +32,16 @@ $ sudo docker-compose up --build -d
 |  subCategory |      String| Book Category|
 |  price__lte |      Integer| Maximum Price|
 |  price__gte |      Integer| Minimum Price|
+
+
+#### Swagger
+* http://localhost/swagger/
+![swagger](https://img.onl/a4duwv)
+
+
+#### Logstash + Kibana
+* http://localhost:5601/app/kibana
+![swagger](https://img.onl/iFVWZC)
 
 
 #### Prometheus
