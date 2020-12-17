@@ -1,12 +1,14 @@
 from api.models import Article
 from api.serializers import BooksSerializer
 
-from rest_framework_mongoengine import generics
 from django.http import JsonResponse
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework_mongoengine import generics
 
 
 # Create your views here.
-class ArticleView(generics.ListCreateAPIView):
+class ArticleView(generics.ListAPIView):
     queryset = Article.objects.limit(100)
     serializer_class = BooksSerializer
 
@@ -37,6 +39,17 @@ class ArticleFilterView(generics.GenericAPIView):
         return queryset
     
 
+    @swagger_auto_schema(
+        operation_summary = 'book search',   
+        manual_parameters = [
+            openapi.Parameter(name='title', in_=openapi.IN_QUERY, description='Title', type=openapi.TYPE_STRING),
+            openapi.Parameter(name='author', in_=openapi.IN_QUERY, description='Author', type=openapi.TYPE_STRING),
+            openapi.Parameter(name='publisher', in_=openapi.IN_QUERY, description='Publisher', type=openapi.TYPE_STRING),
+            openapi.Parameter(name='subCategory', in_=openapi.IN_QUERY, description='Category', type=openapi.TYPE_STRING),
+            openapi.Parameter(name='price__lte', in_=openapi.IN_QUERY, description='Maximum Price', type=openapi.TYPE_INTEGER),
+            openapi.Parameter(name='price__gte', in_=openapi.IN_QUERY, description='Minimum Price', type=openapi.TYPE_INTEGER),
+        ]
+    )
     def get(self, request, *args, **krgs):
         res = {'status': False}
         try:

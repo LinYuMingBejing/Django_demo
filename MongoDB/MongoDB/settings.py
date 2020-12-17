@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import mongoengine
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_mongoengine',
     'django_prometheus',
+    'drf_yasg',
     'api.apps.ApiConfig',
 ]
 
@@ -86,7 +89,7 @@ DATABASES = {
     }
 }
 
-mongoengine.connect('books', host='mongodb://mongodb')
+mongoengine.connect('books', host='mongodb://mongodb:27017')
 
 
 # Password validation
@@ -126,7 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
 
 CACHES = {
     "default": {
